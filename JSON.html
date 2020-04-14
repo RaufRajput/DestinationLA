@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Fun page with JSON</title>
+    <script src ="js/surfBeaches.js"></script>
+    <link href="css/style1.css" rel="stylesheet">
+    <link href="css/style2.css" rel="stylesheet">
+<link href="css/style3.css" rel="stylesheet">
+    <script src="js/javascript.js"></script>
+
+
+
+</head>
+    <script>
+        
+        
+    function myFunction() {
+    var x = document.getElementById("centered_nav");
+    if (x.className === "rc_nav") {
+        x.className += " responsive";
+    } else {
+        x.className = "rc_nav";
+    }
+}
+    </script>
+    
+    
+<body>
+
+    
+<center>
+
+    
+    
+    
+    
+<div class="top1_wrapper">
+    <div class="container">
+        <div class="top1 clearfix">
+            <div class="email1">Email: info@destinations.com</div>
+            <div class="phone1">Phone: 1-1800 VISIT LA</div>
+        </div>
+    </div>
+</div>
+    
+    
+ 
+<div class="header">
+  <h2> Welcome to fun page </h2>
+</div>
+
+    
+<div class="lang1">
+    <div class="dropdown">
+
+    </div>
+</div>
+    
+ 
+    
+<div class="rc_nav" id="centered_nav">
+<a  href="index.html" title="Home">Home</a>
+<a href="touristattractions.html" title="Services">Tourist Attractions</a>
+<a href="shopping.html" title="About">Shopping</a>
+<a a href="nightlife.html" title="Contact">Nightlife</a>
+    <a href="beaches.html" title="About">Beaches</a>
+    <a href="contacts.html" title="Contact">Contact</a>
+<a href="javascript:void(0);" title="Menu" style="font-size:18px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+
+
+<div class="topnav">
+
+    
+   
+<br>
+<div class="row">
+  <div class="column side" >
+    </div>
+<div class="row">
+  <div class="column middle" >
+    
+    <h3> Fun facts about animals <a href="https://learnwebcode.github.io/json-example/animals-1.json">Fun Fact 1</a><br><a href="https://learnwebcode.github.io/json-example/animals-2.json">Fun Fact 2</a><br><a href="https://learnwebcode.github.io/json-example/animals-3.json">Fun Fact 2</a> </h3>
+
+
+  <button id="btn">Fetch Info for 3 New Animals</button>
+    <div id="animal-info"></div>
+
+
+
+
+
+
+  </div>
+    <div class="column side" ></div>
+    </div>
+      
+</div>
+
+</div>
+
+    <br>
+    
+    
+
+</body>
+    </center>
+</html>
+
+<script>
+    var pageCounter = 1;
+    var animalContainer = document.getElementById("animal-info");
+    var btn = document.getElementById("btn");
+
+    btn.addEventListener("click", function() {
+        var ourRequest = new XMLHttpRequest();
+        ourRequest.open('GET', 'https://learnwebcode.github.io/json-example/animals-' + pageCounter + '.json');
+        ourRequest.onload = function() {
+            if (ourRequest.status >= 200 && ourRequest.status < 400) {
+                var ourData = JSON.parse(ourRequest.responseText);
+                renderHTML(ourData);
+            } else {
+                console.log("We connected to the server, but it returned an error.");
+            }
+
+        };
+
+        ourRequest.onerror = function() {
+            console.log("Connection error");
+        };
+
+        ourRequest.send();
+        pageCounter++;
+        if (pageCounter > 3) {
+            btn.classList.add("hide-me");
+        }
+    });
+
+    function renderHTML(data) {
+        var htmlString = "";
+
+        for (i = 0; i < data.length; i++) {
+            htmlString += "<p>" + data[i].name + " is a " + data[i].species + " that likes to eat ";
+
+            for (ii = 0; ii < data[i].foods.likes.length; ii++) {
+                if (ii == 0) {
+                    htmlString += data[i].foods.likes[ii];
+                } else {
+                    htmlString += " and " + data[i].foods.likes[ii];
+                }
+            }
+
+            htmlString += ' and dislikes ';
+
+            for (ii = 0; ii < data[i].foods.dislikes.length; ii++) {
+                if (ii == 0) {
+                    htmlString += data[i].foods.dislikes[ii];
+                } else {
+                    htmlString += " and " + data[i].foods.dislikes[ii];
+                }
+            }
+
+            htmlString += '.</p>';
+
+        }
+
+        animalContainer.insertAdjacentHTML('beforeend', htmlString);
+    }
+</script>
